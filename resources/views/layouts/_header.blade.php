@@ -16,7 +16,28 @@
         <li><a href="{{route('help')}}">Help</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="{{route('signup')}}">signup</a></li>
+        @if(Auth::check())
+          <li><a href="{{ route('users.show', Auth::user()->id) }}">个人中心</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">个人中心</a></li>
+                <li><a href="#">编辑资料</a></li>
+              <li role="separator" class="divider"></li>
+              <li>
+                <a id="logout" href="#">
+                  <form action="{{ route('logout') }}" method="POST">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                    <button class="btn btn-block btn-danger" type="submit" name="button">退出</button>
+                  </form>
+                </a>
+              </li>
+            </ul>
+          </li>
+        @else
+          <li><a href="{{route('login')}}">登陆</a></li>
+        @endif
       </ul>
     </div><!--/.nav-collapse -->
   </div>
